@@ -1,0 +1,1 @@
+function GetQueryString(t){var n=new RegExp("(^|&)"+t+"=([^&]*)(&|$)"),e=window.location.search.substr(1).match(n);return null!=e?unescape(e[2]):null}window.onload=function(){var t=GetQueryString("question")||1,n="./img/text/bg-text-"+t+".png";document.getElementById("text").src=n};
