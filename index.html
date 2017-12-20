@@ -35,14 +35,19 @@
     </div>
     <i id="music" class="music music__off" data-status="off"></i>
     <audio id="audio" class="audio hide" loop autoplay preload="auto"></audio>
+    <audio id="audio2" class="audio hide" preload="auto"></audio>
     <div id="wrapper" class="container">
       <div class="page">
         <ul class="page-bg">
           <li class="page-bg-0">
             <i class="airplane"></i>
-            <i class="windows windows-1"></i>
-            <i class="windows windows-2"></i>
-            <i class="windows windows-3"></i>
+            <i id="windows1" class="windows windows-1"></i>
+            <i id="windows2" class="windows windows-2"></i>
+            <i id="windows3" class="windows windows-3"></i>
+            <div id="tips" class="tips">
+              <p>你队友惨被落地成盒属于</p>
+              <p>你的挑战即将开始！</p>
+            </div>
           </li>
           <li class="page-bg-1"></li>
           <li class="page-bg-2"></li>
@@ -154,6 +159,7 @@
       </div>
       <div id="guide" class="container-guide"></div>
     </div>
+    <div id="mask" class="mask"></div>
     <div id="kv" class="kv">
       <i id="chicken" class="kv-chicken"></i>
       <img id="text" src="./img/text/bg-text-1.png" alt="" class="kv-text">

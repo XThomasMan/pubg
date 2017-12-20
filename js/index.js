@@ -42,6 +42,7 @@ var res = [
   '../img/text/bg-text-11.png'
 ];
 var myScroll = {};
+var sound = {};
 var isReset = false;
 var pageH = 603;
 var pageW = 375;
@@ -52,6 +53,7 @@ var windowRatio = height / width;
 var questionIndex = 0;
 var isMove = false;
 var isEnter9 = false;
+var clickCount = 0;
 var nickname = '你';
 var questionPosition = [1844, 4294, 8526, 11038, 13316, 15798, 19250, 21398, 24132, 25636];
 var answer = [2, 2, 1, 4, 1, 2, 3, 4, [1, 3, 5, 6], [3, 4]];
@@ -167,7 +169,8 @@ var IndexPage = {
     myScroll.scrollTo(0, 0);
     question9 = [];
     $('.btn').removeClass('active correct');
-    $('#kv').removeClass('active');
+    $('#kv').removeClass('active error');
+    $('#mask').removeClass('active');
     $('#text').removeClass('active');
     $('#chicken').removeClass('active');
     $('.page-question').removeClass('active');
@@ -175,9 +178,17 @@ var IndexPage = {
     isEnter9 = false;
     isReset = true;
   },
+  playAudio: function (src) {
+    sound = document.getElementById('audio2');
+    sound.src = src;
+    sound.load();
+    sound.play();
+  },
   action: function () {
     audio.init();
-    $('.windows, #guide').addClass('active');
+    //播放飞机的音频
+    this.playAudio('./media/airplane.wav');
+    $guide.addClass('active');
     myScroll = new IScroll('#wrapper', {
       mouseWheel: true,
       useTransform: true,
@@ -203,8 +214,9 @@ var IndexPage = {
       position(this.y);
     });
   },
-  showKV: function (index) {
-    $('#kv').addClass('active');
+  showKV: function (index, isCorrect) {
+    $('#mask').addClass('active');
+    $('#kv').addClass(isCorrect ? 'active' : 'error');
     var imgSrc = './img/text/bg-text-' + index + '.png';
     $('#text').attr('src', imgSrc).addClass('active');
     $('#chicken').addClass('active');
@@ -267,6 +279,22 @@ var IndexPage = {
   bindEvents: function () {
     var self = this;
 
+    $(document).on('touchend', function () {
+      if (clickCount < 1) {
+        $('#windows1').addClass('active');
+        clickCount++
+      } else if (clickCount < 2) {
+        $('#windows2').addClass('active');
+        clickCount++
+      } else if (clickCount < 3) {
+        $('#windows3').addClass('active').off('webkitAnimationEnd').on('webkitAnimationEnd', function () {
+          $('#tips').addClass('active');
+        });
+        self.playAudio('./media/shot.wav');
+        clickCount++
+      }
+    });
+
     function removeByValue(arr, val) {
       for (var i = 0; i < arr.length; i++) {
         if (arr[i] == val) {
@@ -305,11 +333,13 @@ var IndexPage = {
               }
             }
             if (correct == answer[questionIndex].length) {
+              self.playAudio('./media/correct.mp3');
               !isReset && $guide.addClass('active');
               questionIndex++;
             } else {
               //答错
-              self.showKV(parseInt(questionIndex) + 1);
+              self.playAudio('./media/error.mp3');
+              self.showKV(parseInt(questionIndex) + 1, false);
             }
           }
         } else {
@@ -317,18 +347,19 @@ var IndexPage = {
             $this.addClass('active');
             var isCorrect = false;
             var correctAnswer = answer[questionIndex];
-            if(typeof correctAnswer == 'object'){
-              for(var i = 0; i < correctAnswer.length; i++){
-                if(parseInt(value) == correctAnswer[i]){
+            if (typeof correctAnswer == 'object') {
+              for (var i = 0; i < correctAnswer.length; i++) {
+                if (parseInt(value) == correctAnswer[i]) {
                   isCorrect = true
                 }
               }
             }
             if (parseInt(value) == correctAnswer || isCorrect) {
               $this.addClass('correct');
+              self.playAudio('./media/correct.mp3');
               if (questionIndex == 9) {
                 //全对了
-                self.showKV(11);
+                self.showKV(11, true);
               } else {
                 if (questionIndex == 0 && !isReset) {
                   $guide.addClass('active');
@@ -337,7 +368,8 @@ var IndexPage = {
               }
             } else {
               //答错
-              self.showKV(parseInt(questionIndex) + 1);
+              self.playAudio('./media/error.mp3');
+              self.showKV(parseInt(questionIndex) + 1, false);
             }
           }
         }
