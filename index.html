@@ -22,7 +22,7 @@
     }(document, window);
     </script>
     <link rel="stylesheet" href="css/index.css">
-    <title>PUBG</title>
+    <title>绿野鸡踪</title>
   </head>
 
   <body>
@@ -30,9 +30,8 @@
       <div class="loading-progress">
         <i id="progressBar" class="loading-progress-bar"></i>
       </div>
-      <div class="loading-doll">距离比赛开始还有
-        <span id="doll">0%</span>
-      </div>
+      <div class="loading-doll">距离抵达战场还有
+        <span id="doll">0%</span>秒，你的队友与你整装待发！</div>
     </div>
     <i id="music" class="music music__off" data-status="off"></i>
     <audio id="audio" class="audio hide" loop autoplay preload="auto"></audio>
@@ -134,14 +133,12 @@
         <div class="page-question page-question-9">
           <i class="title"></i>
           <a href="javascript:void(0);" data-value="1" class="btn btn-3">石头</a>
-          <a href="javascript:void(0);" data-value="2" class="btn btn-3">未损毁的汽车</a>
-          <a href="javascript:void(0);" data-value="3" class="btn btn-3">窗户</a>
-          <a href="javascript:void(0);" data-value="4" class="btn btn-3">围墙</a>
-          <a href="javascript:void(0);" data-value="5" class="btn btn-3">门</a>
-          <a href="javascript:void(0);" data-value="6" class="btn btn-3">树</a>
-          <a href="javascript:void(0);" data-value="7" class="btn btn-3">空投箱子</a>
-          <a href="javascript:void(0);" data-value="8" class="btn btn-3">先前被打死的人留下的盒子</a>
-          <a href="javascript:void(0);" data-value="9" class="btn btn-3">围栏</a>
+          <a href="javascript:void(0);" data-value="2" class="btn btn-3">窗户</a>
+          <a href="javascript:void(0);" data-value="3" class="btn btn-3">围墙</a>
+          <a href="javascript:void(0);" data-value="4" class="btn btn-3">门</a>
+          <a href="javascript:void(0);" data-value="5" class="btn btn-3">树</a>
+          <a href="javascript:void(0);" data-value="6" class="btn btn-3">空投箱子</a>
+          <a href="javascript:void(0);" data-value="7" class="btn btn-3">围栏</a>
           <a href="javascript:void(0);" class="btn btn-4"></a>
         </div>
         <div class="page-question page-question-10">
@@ -157,9 +154,10 @@
       </div>
       <div id="guide" class="container-guide"></div>
     </div>
-    <div id="kv" class="kv hide">
+    <div id="kv" class="kv">
       <i id="chicken" class="kv-chicken"></i>
       <img id="text" src="./img/text/bg-text-1.png" alt="" class="kv-text">
+      <p class="kv-tips">长按可保存图片</p>
       <a id="reset" href="javascript:void(0);" class="kv-btn kv-btn-1"></a>
       <a href="#" class="kv-btn kv-btn-2"></a>
     </div>

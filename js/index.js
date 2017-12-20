@@ -54,7 +54,7 @@ var isMove = false;
 var isEnter9 = false;
 var nickname = '你';
 var questionPosition = [1844, 4294, 8526, 11038, 13316, 15798, 19250, 21398, 24132, 25636];
-var answer = [2, 2, 1, 4, 1, 2, 3, 4, [1, 4, 6, 7, 8], 4];
+var answer = [2, 2, 1, 4, 1, 2, 3, 4, [1, 3, 5, 6], [3, 4]];
 var question9 = [];
 var multiple = .5 * (height / pageH) / (windowRatio / pageRatio);
 var $guide = $('#guide');
@@ -152,7 +152,7 @@ var IndexPage = {
         var progress = parseInt(count / total * 100);
         $('#progressBar').css('transform', 'translate(' + (-100 + progress) + '%, 0)');
         setTimeout(function () {
-          $('#doll').html(progress + "%");
+          $('#doll').html(100 - progress);
         }, 0);
       },
       onComplete: function () {
@@ -167,7 +167,9 @@ var IndexPage = {
     myScroll.scrollTo(0, 0);
     question9 = [];
     $('.btn').removeClass('active correct');
-    $('#kv').addClass('hide');
+    $('#kv').removeClass('active');
+    $('#text').removeClass('active');
+    $('#chicken').removeClass('active');
     $('.page-question').removeClass('active');
     audio.startAudio();
     isEnter9 = false;
@@ -186,9 +188,11 @@ var IndexPage = {
       var position = -questionPosition[questionIndex] * multiple;
       if (y <= position) {
         $('.page-question-' + (parseInt(questionIndex) + 1)).addClass('active');
+        isMove = false;
         myScroll.scrollTo(0, position);
       }
     }
+
     myScroll.on('scroll', function () {
       isMove = true;
       $guide.removeClass('active');
@@ -200,11 +204,10 @@ var IndexPage = {
     });
   },
   showKV: function (index) {
-    $('#kv').removeClass('hide');
+    $('#kv').addClass('active');
     var imgSrc = './img/text/bg-text-' + index + '.png';
-    $('#text').attr('src', imgSrc);
+    $('#text').attr('src', imgSrc).addClass('active');
     $('#chicken').addClass('active');
-    audio.stopAudio();
     this.share(nickname, index);
   },
   login: function () {
@@ -312,7 +315,16 @@ var IndexPage = {
         } else {
           if (!$this.siblings('.btn').hasClass('active') && !$this.hasClass('active')) {
             $this.addClass('active');
-            if (parseInt(value) == answer[questionIndex]) {
+            var isCorrect = false;
+            var correctAnswer = answer[questionIndex];
+            if(typeof correctAnswer == 'object'){
+              for(var i = 0; i < correctAnswer.length; i++){
+                if(parseInt(value) == correctAnswer[i]){
+                  isCorrect = true
+                }
+              }
+            }
+            if (parseInt(value) == correctAnswer || isCorrect) {
               $this.addClass('correct');
               if (questionIndex == 9) {
                 //全对了
