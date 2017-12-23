@@ -160,12 +160,13 @@ var IndexPage = {
         var progress = parseInt(count / total * 100);
         $('#progressBar').css('transform', 'translate(' + (-100 + progress) + '%, 0)');
         setTimeout(function () {
-          $('#doll').html(100 - progress);
+          $('#doll').html(10 - parseInt(progress / 10));
         }, 0);
       },
       onComplete: function () {
         $('#loading').addClass('hide');
         audio.init();
+        self.initAudio();
         self.playAudio('./media/airplane.wav');
         self.bindEvents();
       }
@@ -187,7 +188,7 @@ var IndexPage = {
     isReset = true;
   },
   initAudio: function () {
-    var audioArray = ['./media/shot.wav', './media/correct.mp3', './media/error.mp3'];
+    var audioArray = ['./media/airplane.wav', './media/shot.wav', './media/correct.mp3', './media/error.mp3'];
     for (var i = 0; i < audioArray.length; i++) {
       var audio = new Audio();
       audio.src = audioArray[i];
@@ -231,13 +232,13 @@ var IndexPage = {
   },
   showKV: function (index, isCorrect) {
     var self = this;
+    var imgSrc = './img/text/bg-text-' + index + '.png';
+    $text.attr('src', imgSrc);
     self.makeImg(index);
     function goKV() {
       $('#kv').addClass(isCorrect ? 'active' : 'error').off('webkitAnimationEnd').on('webkitAnimationEnd', function () {
         $text.addClass('active');
       });
-      var imgSrc = './img/text/bg-text-' + index + '.png';
-      $text.attr('src', imgSrc);
       $('#chicken').addClass('active');
       self.share(nickname, index);
     }
@@ -333,7 +334,6 @@ var IndexPage = {
     var self = this;
     $(document).on('touchend', function () {
       if (clickCount < 1) {
-        self.initAudio();
         $('#windows1').addClass('active');
         clickCount++
       } else if (clickCount < 2) {
