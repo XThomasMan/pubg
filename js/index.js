@@ -22,6 +22,7 @@ var res = [
   '../img/bg/bg-index-18.jpg',
   '../img/bg/bg-index-19.jpg',
   '../img/bg/bg-index-20.jpg',
+  '../img/sprites-people.png',
   '../img/sprites-guide.png',
   '../img/bg-correct.png',
   '../img/bg-ribbon.png',
@@ -168,6 +169,7 @@ var IndexPage = {
         audio.init();
         self.initAudio();
         self.playAudio('./media/airplane.wav');
+        $('.people').addClass('active');
         self.bindEvents();
       }
     });
@@ -188,7 +190,7 @@ var IndexPage = {
     isReset = true;
   },
   initAudio: function () {
-    var audioArray = ['./media/airplane.wav', './media/shot.wav', './media/correct.mp3', './media/error.mp3'];
+    var audioArray = ['./media/victory.mp3', './media/airplane.wav', './media/shot.wav', './media/correct.mp3', './media/error.mp3'];
     for (var i = 0; i < audioArray.length; i++) {
       var audio = new Audio();
       audio.src = audioArray[i];
@@ -244,6 +246,7 @@ var IndexPage = {
     }
     $('#mask').addClass('active').off('webkitAnimationEnd').on('webkitAnimationEnd', function () {
       if (isCorrect) {
+        self.playAudio('./media/victory.mp3');
         $('#ribbon').addClass('active').off('webkitAnimationEnd').on('webkitAnimationEnd', goKV);
       } else {
         goKV();
